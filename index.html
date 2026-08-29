@@ -14,7 +14,7 @@
             <div class="logo-box">
                 <span class="icon">💎</span>
                 <h1>LUXURY QUIZ</h1>
-                <p>महान ज्ञान का सफर (नए और यूनीक सवाल)</p>
+                <p>महान ज्ञान का सफर (बिना रुकावट खेलें)</p>
             </div>
             <div class="menu-box">
                 <button class="btn primary-btn" onclick="QuizGame.startQuiz()">▶ रॉयल गेम शुरू करें</button>
@@ -28,7 +28,6 @@
         <!-- QUIZ SCREEN -->
         <div id="quiz-screen" class="screen">
             <div class="quiz-header">
-                <div id="lives-container">❤️❤️❤️❤️❤️</div>
                 <span id="question-counter">सवाल 1 / 50</span>
                 <span id="score-counter">स्कोर: 0</span>
             </div>
@@ -60,7 +59,6 @@
     </div>
 
     <script>
-        // 50 बिल्कुल नए और यूनीक सवालों का खजाना
         const basePool = [
             { q: "भारत की राजधानी क्या है?", options: ["मुंबई", "नई दिल्ली", "कोलकाता", "चेन्नई"], answer: 1 },
             { q: "सौरमंडल का सबसे बड़ा ग्रह कौन सा है?", options: ["मंगल", "शनि", "बृहस्पति (Jupiter)", "पृथ्वी"], answer: 2 },
@@ -107,7 +105,7 @@
             { q: "फेसबुक (Facebook) के संस्थापक कौन हैं?", options: ["एलोन मस्क", "मार्क जुकरबर्ग", "बिल गेट्स", "स्टीव जॉब्स"], answer: 1 },
             { q: "खून का रंग लाल किसके कारण होता है?", options: ["प्लाज्मा", "प्लेटलेट्स", "हीमोग्लोबिन", "श्वेत रक्त कोशिकाएं"], answer: 2 },
             { q: "दुनिया का सबसे बड़ा रेगिस्तान कौन सा है?", options: ["थार", "सहारा", "गोबी", "कालाहारी"], answer: 1 },
-            { q: "भारत का सबसे छोटा राज्य (क्षेत्रफल में) कौन सा है?", options: ["सिक्किम", "त्रिपुरा", "गोवा", "मिजोरम"], answer: 2 },
+            { q: "भारत का सबसे छोटा राज्य (क्षेत्रफल में) कौन सा है?", options: ["सिक्किम", "त्रिपुरा", "गोवा", "मिजोरम"],answer: 2 },
             { q: "कंप्यूटर में RAM का फुल फॉर्म क्या है?", options: ["Read Access Memory", "Random Access Memory", "Run All Memory", "Random Active Memory"], answer: 1 },
             { q: "ध्वनि (Sound) की गति सबसे अधिक किसमें होती है?", options: ["हवा में", "पानी में", "ठोस (Solid) में", "निर्वात (Vacuum) में"], answer: 2 },
             { q: "भारत का सर्वोच्च नागरिक सम्मान कौन सा है?", options: ["पद्म विभूषण", "भारत रत्न", "परमवीर चक्र", "अशोक चक्र"], answer: 1 },
@@ -117,12 +115,10 @@
         let questions = [];
         let currentQIndex = 0;
         let score = 0;
-        let lives = 2;
         let highscore = localStorage.getItem('luxury_quiz_highscore') || 0;
 
         document.getElementById('home-highscore').innerText = highscore;
 
-        // यह फंक्शन सवालों को ताश के पत्तों की तरह फेंट देता है
         function shuffleQuestions(array) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -136,11 +132,7 @@
             startQuiz() {
                 currentQIndex = 0;
                 score = 0;
-                lives = 2;
-                
-                // सारे सवालों को शफ़ल करके नई लिस्ट तैयार करना
                 questions = shuffleQuestions(basePool);
-
                 this.showScreen('quiz-screen');
                 this.loadQuestion();
             },
@@ -150,20 +142,12 @@
                 document.getElementById(screenId).classList.add('active');
             },
 
-            updateLivesDisplay() {
-                let hearts = "";
-                for(let i=0; i<lives; i++) hearts += "❤️";
-                for(let i=0; i<(2-lives); i++) hearts += "🖤";
-                document.getElementById('lives-container').innerText = hearts;
-            },
-
             loadQuestion() {
-                if (currentQIndex >= questions.length || lives <= 0) {
+                if (currentQIndex >= questions.length) {
                     this.endQuiz();
                     return;
                 }
 
-                this.updateLivesDisplay();
                 document.getElementById('feedback-container').style.display = 'none';
                 
                 let qData = questions[currentQIndex];
@@ -186,7 +170,7 @@
 
             checkAnswer(selected, correct, btn) {
                 let allBtns = document.querySelectorAll('.opt-btn');
-                allBtns.forEach(b => b.style.pointerEvents = 'none'); // क्लिक बंद
+                allBtns.forEach(b => b.style.pointerEvents = 'none');
 
                 let feedbackBox = document.getElementById('feedback-container');
                 let feedbackText = document.getElementById('feedback-text');
@@ -202,20 +186,18 @@
                     btn.style.background = 'linear-gradient(45deg, #ff4444, #cc0000)';
                     allBtns[correct].style.background = 'linear-gradient(45deg, #00ff88, #00b359)';
                     allBtns[correct].style.color = '#000';
-                    lives--;
                     feedbackText.innerHTML = "❌ गलत जवाब! (Wrong)";
                     feedbackText.style.color = "#ff4444";
                 }
-                this.updateLivesDisplay();
             },
 
             nextQuestion() {
-                if (lives <= 0) {
-                    this.endQuiz();
-                    return;
-                }
                 currentQIndex++;
-                this.loadQuestion();
+                if (currentQIndex >= questions.length) {
+                    this.endQuiz();
+                } else {
+                    this.loadQuestion();
+                }
             },
 
             endQuiz() {
