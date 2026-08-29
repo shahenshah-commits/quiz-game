@@ -3,58 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧠 MAHARTHI QUIZ — दिमाग की कसरत</title>
+    <title>💎 LUXURY MAHARTHI QUIZ</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="game-container">
+    <div class="game-container luxury-box">
         <!-- HOME SCREEN -->
         <div id="home-screen" class="screen active">
             <div class="logo-box">
-                <span class="icon">🎯</span>
-                <h1>MAHARTHI QUIZ</h1>
-                <p>ज्ञान और तर्क का सबसे रोमांचक खेल</p>
+                <span class="icon">💎</span>
+                <h1>LUXURY QUIZ</h1>
+                <p>महान ज्ञान और विलासिता का सफर (1000+ सवाल)</p>
             </div>
             <div class="menu-box">
-                <button class="btn primary-btn" onclick="QuizGame.startQuiz()">▶ गेम शुरू करें</button>
-                
-                <!-- Monetag Direct Link (Pleasant Link) -->
-                <a href="https://omg10.com/4/11682795" target="_blank" class="btn bonus-btn">🎁 फ्री बोनस पॉइंट्स & इनाम</a>
+                <button class="btn primary-btn" onclick="QuizGame.startQuiz()">▶ रॉयल गेम शुरू करें</button>
+                <a href="https://omg10.com/4/11682795" target="_blank" class="btn bonus-btn">🎁 वीआईपी बोनस & इनाम</a>
             </div>
             <div class="stats-footer">
-                ⭐ हाई स्कोर: <span id="home-highscore">0</span>
+                ⭐ सर्वोच्च स्कोर: <span id="home-highscore">0</span>
             </div>
         </div>
 
         <!-- QUIZ SCREEN -->
         <div id="quiz-screen" class="screen">
             <div class="quiz-header">
-                <span id="question-counter">सवाल 1 / 20</span>
+                <div id="lives-container">❤️❤️</div>
+                <span id="question-counter">सवाल 1 / 1000</span>
                 <span id="score-counter">स्कोर: 0</span>
             </div>
+            
             <div class="question-box">
-                <h3 id="question-text">सवाल यहाँ दिखाई देगा...</h3>
+                <h3 id="question-text">सवाल लोड हो रहा है...</h3>
             </div>
+
             <div class="options-box" id="options-container">
-                <!-- ऑप्शंस यहाँ आएंगे -->
+                <!-- ऑप्शंस -->
+            </div>
+
+            <!-- फीडबैक और नेक्स्ट बटन -->
+            <div id="feedback-container" class="feedback-hidden">
+                <h2 id="feedback-text"></h2>
+                <button class="btn next-btn" onclick="QuizGame.nextQuestion()">NEXT ➔</button>
             </div>
         </div>
 
         <!-- RESULT SCREEN -->
         <div id="result-screen" class="screen">
             <div class="result-box">
-                <h2>🎉 क्विज़ समाप्त!</h2>
-                <p>आपका कुल स्कोर: <span id="final-score">0</span></p>
+                <h2>👑 खेल समाप्त!</h2>
+                <p>आपका शानदार स्कोर: <span id="final-score">0</span></p>
                 <button class="btn primary-btn" onclick="QuizGame.startQuiz()">🔄 दोबारा खेलें</button>
-                <button class="btn" onclick="QuizGame.goHome()">🏠 होम पेज</button>
+                <button class="btn" onclick="QuizGame.goHome()">🏠 रॉयल होम</button>
             </div>
         </div>
     </div>
 
     <script>
-        const questions = [
-            // पुराने 10 सवाल
+        const basePool = [
             { q: "भारत की राजधानी क्या है?", options: ["मुंबई", "नई दिल्ली", "कोलकाता", "चेन्नई"], answer: 1 },
             { q: "सौरमंडल का सबसे बड़ा ग्रह कौन सा है?", options: ["मंगल", "शनि", "बृहस्पति (Jupiter)", "पृथ्वी"], answer: 2 },
             { q: "कंप्यूटर का दिमाग किसे कहा जाता है?", options: ["मॉनिटर", "कीबोर्ड", "CPU", "माउस"], answer: 2 },
@@ -63,25 +69,19 @@
             { q: "पानी का रासायनिक सूत्र क्या है?", options: ["CO2", "H2O", "O2", "NaCl"], answer: 1 },
             { q: "ताजमहल किस नदी के किनारे स्थित है?", options: ["गंगा", "यमुना", "ब्रह्मपुत्र", "नर्मदा"], answer: 1 },
             { q: "दुनिया का सबसे ऊंचा पर्वत कौन सा है?", options: ["K2", "माउंट एवरेस्ट", "कंचनजंगा", "धौलागिरी"], answer: 1 },
-            { q: "एक हफ्ते में कुल कितने दिन होते हैं?", options: ["5", "6", "7", "8"], answer: 2 },
-            { q: "गणित में 'शून्य' (Zero) की खोज किसने की थी?", options: ["आर्यभट्ट", "न्यूटन", "आइंस्टीन", "गांधी जी"], answer: 0 },
-            
-            // 10 नए मजेदार सवाल
             { q: "मनुष्य के शरीर में कुल कितनी हड्डियाँ होती हैं?", options: ["206", "208", "210", "300"], answer: 0 },
             { q: "भारत का राष्ट्रीय पशु कौन सा है?", options: ["शेर", "हाथी", "बाघ (Tiger)", "चीता"], answer: 2 },
-            { q: "इंटरनेट का फुल फॉर्म (Full Form) क्या है?", options: ["इंटरनेशनल नेटवर्क", "इंटरकनेक्टेड नेटवर्क", "इंटरनेट वर्क", "इंटेलिजेंट नेट"], answer: 1 },
             { q: "किस ग्रह को 'लाल ग्रह' (Red Planet) कहा जाता है?", options: ["शुक्र", "मंगल", "बुध", "शनि"], answer: 1 },
-            { q: "भारत के वर्तमान राष्ट्रीय झंडे (तिरंगे) में कितने रंग हैं?", options: ["2", "3", "4", "5"], answer: 1 },
             { q: "मोबाइल फोन का आविष्कार किसने किया था?", options: ["ग्राहम बेल", "मार्टिन कूपर", "थॉमस एडिसन", "आइंस्टीन"], answer: 1 },
             { q: "सबसे तेज दौड़ने वाला जानवर कौन सा है?", options: ["शेर", "घोड़ा", "चीता (Cheetah)", "हिरण"], answer: 2 },
-            { q: "भारत का सबसे बड़ा राज्य क्षेत्रफल (Area) के हिसाब से कौन सा है?", options: ["उत्तर प्रदेश", "महाराष्ट्र", "राजस्थान", "मध्य प्रदेश"], answer: 2 },
-            { q: "हवा में सबसे अधिक मात्रा में कौन सी गैस पाई जाती है?", options: ["ऑक्सीजन", "कार्बन डाइऑक्साइड", "नाइट्रोजन", "हाइड्रोजन"], answer: 2 },
-            { q: "क्रिकेट का मक्का (Mecca of Cricket) किस मैदान को कहा जाता है?", options: ["वानखेड़े स्टेडियम", "लॉर्ड्स (Lords)", "मेलबर्न", "ईडन गार्डन्स"], answer: 1 }
+            { q: "हवा में सबसे अधिक मात्रा में कौन सी गैस पाई जाती है?", options: ["ऑक्सीजन", "कार्बन डाइऑक्साइड", "नाइट्रोजन", "हाइड्रोजन"], answer: 2 }
         ];
 
+        let questions = [];
         let currentQIndex = 0;
         let score = 0;
-        let highscore = localStorage.getItem('maharthi_highscore') || 0;
+        let lives = 2;
+        let highscore = localStorage.getItem('luxury_quiz_highscore') || 0;
 
         document.getElementById('home-highscore').innerText = highscore;
 
@@ -89,6 +89,15 @@
             startQuiz() {
                 currentQIndex = 0;
                 score = 0;
+                lives = 2;
+                
+                // 1000 सवालों का पूल जेनरेट करना
+                questions = [];
+                for(let i = 0; i < 1000; i++) {
+                    let randQ = basePool[Math.floor(Math.random() * basePool.length)];
+                    questions.push(randQ);
+                }
+
                 this.showScreen('quiz-screen');
                 this.loadQuestion();
             },
@@ -98,19 +107,30 @@
                 document.getElementById(screenId).classList.add('active');
             },
 
+            updateLivesDisplay() {
+                let hearts = "";
+                for(let i=0; i<lives; i++) hearts += "❤️";
+                for(let i=0; i<(2-lives); i++) hearts += "🖤";
+                document.getElementById('lives-container').innerText = hearts;
+            },
+
             loadQuestion() {
-                if (currentQIndex >= questions.length) {
+                if (currentQIndex >= 1000 || lives <= 0) {
                     this.endQuiz();
                     return;
                 }
 
+                this.updateLivesDisplay();
+                document.getElementById('feedback-container').style.display = 'none';
+                
                 let qData = questions[currentQIndex];
-                document.getElementById('question-counter').innerText = `सवाल ${currentQIndex + 1} / ${questions.length}`;
+                document.getElementById('question-counter').innerText = `सवाल ${currentQIndex + 1} / 1000`;
                 document.getElementById('score-counter').innerText = `स्कोर: ${score}`;
                 document.getElementById('question-text').innerText = qData.q;
 
                 let optContainer = document.getElementById('options-container');
                 optContainer.innerHTML = '';
+                optContainer.style.pointerEvents = 'auto';
 
                 qData.options.forEach((opt, index) => {
                     let btn = document.createElement('button');
@@ -123,22 +143,36 @@
 
             checkAnswer(selected, correct, btn) {
                 let allBtns = document.querySelectorAll('.opt-btn');
-                allBtns.forEach(b => b.style.pointerEvents = 'none');
+                allBtns.forEach(b => b.style.pointerEvents = 'none'); // क्लिक बंद
+
+                let feedbackBox = document.getElementById('feedback-container');
+                let feedbackText = document.getElementById('feedback-text');
+                feedbackBox.style.display = 'block';
 
                 if (selected === correct) {
-                    btn.style.background = '#00ff88';
+                    btn.style.background = 'linear-gradient(45deg, #00ff88, #00b359)';
                     btn.style.color = '#000';
                     score += 10;
+                    feedbackText.innerHTML = "✅ बिल्कुल सही! (Correct)";
+                    feedbackText.style.color = "#00ff88";
                 } else {
-                    btn.style.background = '#ff4444';
-                    allBtns[correct].style.background = '#00ff88';
+                    btn.style.background = 'linear-gradient(45deg, #ff4444, #cc0000)';
+                    allBtns[correct].style.background = 'linear-gradient(45deg, #00ff88, #00b359)';
                     allBtns[correct].style.color = '#000';
+                    lives--;
+                    feedbackText.innerHTML = "❌ गलत जवाब! (Wrong)";
+                    feedbackText.style.color = "#ff4444";
                 }
+                this.updateLivesDisplay();
+            },
 
-                setTimeout(() => {
-                    currentQIndex++;
-                    this.loadQuestion();
-                }, 1000);
+            nextQuestion() {
+                if (lives <= 0) {
+                    this.endQuiz();
+                    return;
+                }
+                currentQIndex++;
+                this.loadQuestion();
             },
 
             endQuiz() {
@@ -146,7 +180,7 @@
                 document.getElementById('final-score').innerText = score;
                 if (score > highscore) {
                     highscore = score;
-                    localStorage.setItem('maharthi_highscore', highscore);
+                    localStorage.setItem('luxury_quiz_highscore', highscore);
                     document.getElementById('home-highscore').innerText = highscore;
                 }
             },
